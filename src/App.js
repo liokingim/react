@@ -1,32 +1,20 @@
 import React, { useState } from 'react';
-import Movie from './components/Movie';
-import MovieForm from './components/MovieForm';
+// import { createRoot } from 'react-dom/client';
+import './App.css';
+import Page from './components/Page';
+import { ThemeContext } from './context/ThemeContext';
+import { UserContext } from './context/UserContext';
 
 function App() {
-  const [movies, setMovies] = useState([
-    { title: 'kossie coder1', year: 2001},
-    { title: 'kossie coder2', year: 2002},
-    { title: 'kossie coder3', year: 2003},
-    { title: 'kossie coder4', year: 2004}
-  ]);
 
-  const renderMovies = movies.map(movie => {
-    return (
-      <Movie movie={movie} key={movie.title}/>
-    );
-  });
-  const addMovie = (movie) => {
-    setMovies([
-      ...movies,
-      movie
-    ]);
-  };
+  const [isDark, setIsDark] = useState(false);
+
   return (
-    <div className="App">
-      <h1>Movie list</h1>
-      <MovieForm addMovie={addMovie} />
-      {renderMovies}
-    </div>
+    <UserContext.Provider value={"사용자"}>
+      <ThemeContext.Provider value={{ isDark, setIsDark }}>
+        <Page />
+      </ThemeContext.Provider>
+    </UserContext.Provider >
   );
 }
 
