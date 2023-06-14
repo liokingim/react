@@ -1,57 +1,33 @@
-import React from 'react';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch, Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import Movie from './components/Movie';
+import MovieForm from './components/MovieForm';
 
-const HomePage = () => <h2>Home Page</h2>;
+function App() {
+  const [movies, setMovies] = useState([
+    { title: 'kossie coder1', year: 2001 },
+    { title: 'kossie coder2', year: 2002 },
+    { title: 'kossie coder3', year: 2003 },
+    { title: 'kossie coder4', year: 2004 }
+  ]);
 
-const NextPage = () => <h2>Next Page</h2>;
-
-const AnotherPage = () => <h2>Another Page</h2>;
-
-const BankForm = () => {
-  const { register, handleSubmit, errors } = useForm();
-  const history = useHistory();
-
-  const onSubmit = data => {
-    axios.post('http://example.com/api/bank', data)
-      .then(response => {
-        console.log(response);
-        // react-router의 useHistory를 이용하여 페이지 이동
-        history.push('/next-page');
-      })
-      .catch(error => {
-        console.error(error);
-        // 에러 처리를 이곳에서 수행하세요.
-      });
+  const renderMovies = movies.map(movie => {
+    return (
+      <Movie movie={movie} key={movie.title} />
+    );
+  });
+  const addMovie = (movie) => {
+    setMovies([
+      ...movies,
+      movie
+    ]);
   };
-
-  // ... (생략)
-};
-
-export default function App() {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/next-page">Next Page</Link></li>
-            <li><Link to="/another-page">Another Page</Link></li>
-          </ul>
-        </nav>
-
-        <Switch>
-          <Route path="/next-page">
-            <NextPage />
-          </Route>
-          <Route path="/another-page">
-            <AnotherPage />
-          </Route>
-          <Route path="/">
-            <BankForm />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <div className="App">
+      <h1>Movie list</h1>
+      <MovieForm addMovie={addMovie} />
+      {renderMovies}
+    </div>
   );
 }
+
+export default App;
